@@ -57,7 +57,7 @@ class App extends React.Component {
             body: data
         };
 
-        fetch('http://159.65.75.200:5000/upload', sentData)
+        fetch('http://127.0.0.1:5000/upload', sentData)
             .then(response => {
                 if (this.state.value === "zip") {
                     response.json()
