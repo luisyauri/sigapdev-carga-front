@@ -35,6 +35,7 @@ class App extends React.Component {
             lista_detalle: []
         };
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -49,37 +50,59 @@ class App extends React.Component {
         data.append('formato', this.state.formato);
 
         console.log(this.state.file);
-        this.setState((prevState) => ({ uniqueId: prevState.uniqueId + 1 }))
+        this.setState((prevState) => ({uniqueId: prevState.uniqueId + 1}))
 
         let sentData = {
             method: 'POST',
             //mode: 'no-cors',
             body: data
+            //Hola
         };
 
-        fetch('http://127.0.0.1:5000/upload', sentData)
+        fetch('https://sigap-modulodecarga.herokuapp.com/upload', sentData)
             .then(response => {
                 if (this.state.value === "zip") {
                     response.json()
-                        .then((json) => this.setState({
-                            archivo: json.file,
-                            total_registros_insertados: json.good_files.total_registros_insertados,
-                            total_registros_procesados: json.good_files.total_registros_procesados,
-                            total_registros_excluidos: json.good_files.total_registros_excluidos,
-                            good_files: json.good_files.lista_detalle,
-                            bad_files: json.bad_files
-                        })
+                        .then((json) => {
+                                console.log("FUNCIONÓ");
+                                console.log(json);
+                                this.setState({
+                                    archivo: json.file,
+                                    total_registros_insertados: json.good_files.total_registros_insertados,
+                                    total_registros_procesados: json.good_files.total_registros_procesados,
+                                    total_registros_excluidos: json.good_files.total_registros_excluidos,
+                                    good_files: json.good_files.lista_detalle,
+                                    bad_files: json.bad_files
+                                })
+                            }, error => {
+                                console.log(" NO FUNCIONÓ");
+                            }
+
+                            //     this.setState({
+                            //     archivo: json.file,
+                            //     total_registros_insertados: json.good_files.total_registros_insertados,
+                            //     total_registros_procesados: json.good_files.total_registros_procesados,
+                            //     total_registros_excluidos: json.good_files.total_registros_excluidos,
+                            //     good_files: json.good_files.lista_detalle,
+                            //     bad_files: json.bad_files
+                            // })
                         );
+
                 } else {
                     response.json()
-                        .then((json) => this.setState({
-                            archivo: json.filename,
-                            status_excel: json.status,
-                            total_registros_insertados: json.registros_insertados,
-                            total_registros_procesados: json.registros_procesados,
-                            total_registros_excluidos: json.registros_excluidos,
-                            lista_detalle: json.registros_duplicados_detalle
-                        })
+                        .then((json) => {
+                                console.log("FUNCIONÓ");
+                                this.setState({
+                                    archivo: json.filename,
+                                    status_excel: json.status,
+                                    total_registros_insertados: json.registros_insertados,
+                                    total_registros_procesados: json.registros_procesados,
+                                    total_registros_excluidos: json.registros_excluidos,
+                                    lista_detalle: json.registros_duplicados_detalle
+
+
+                                })
+                            }
                         );
                 }
             })
@@ -145,7 +168,7 @@ class App extends React.Component {
             let reader = new FileReader();
             let file = e.target.files[0];
             let tipoFile = '';
-            if (file.name.endsWith(".xls")) {
+            if (file.name.endsWith(".xls") || file.name.endsWith(".xlsx")) {
                 tipoFile = 'excel'
             } else if (file.name.endsWith(".zip")) {
                 tipoFile = 'zip'
@@ -164,7 +187,7 @@ class App extends React.Component {
     }
 
     handClearSelectedOption = () => {
-        this.setState(() => ({ help: false }));
+        this.setState(() => ({help: false}));
     }
 
     openModalDetalle = (lista_detalle) => {
@@ -184,38 +207,35 @@ class App extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-xs-10">
-                        <h1 className="h1">Módulo Carga de Datos</h1>
+                        <h1 className="h1">MÓDULO DE CARGA DE DATOS</h1>
                     </div>
                     <div className="col-xs-2">
-                        <a href="http://siga-fisi.herokuapp.com/dashboard">
-                            <img className="img"
-                                src="http://www.clker.com/cliparts/R/L/N/Y/N/e/house-logo-hi.png"
-                                alt="HOME"
-                                height="60" width="60"
-                                align="right" />
-                        </a>
+                        <a href="http://siga-fisi.herokuapp.com/dashboard"><i className="fas fa-home img"></i></a>
                     </div>
                 </div>
-                <div className="vista" >
+                <div className="vista">
                     <label className="label">
-                        USUARIO: {this.state.usuario}
+                        Bienvenido estimado <span className="invitado">{this.state.usuario}</span>
                     </label>
+                    <br/>
+                    <span className="descripcion">Ingrese porfavor archivos solamente de tipo  <b>Excel</b> o <b>Zip</b>.</span>
                     <form>
                         <div className="row">
                             <div className="col-xs-12 col-md-6">
-                                <input
-                                    type="file"
-                                    className="fileInput"
-                                    pattern=".*[^ ].*"
-                                    required
-                                    accept=".xls, .zip"
-                                    onChange={(e) => this.handleFileChange(e)}
+                                <input class="input-carga"
+                                       type="file"
+                                       className="fileInput"
+                                       pattern=".*[^ ].*"
+                                       required
+                                       accept=".xls,.xlsx, .zip"
+                                       onChange={(e) => this.handleFileChange(e)}
                                 />
                             </div>
                             <div className="col-xs-4 col-md-2">
                                 <input className="labelinput"
-                                    value={this.state.value}
-                                    disabled
+                                       value={this.state.value}
+                                       placeholder={"Tipo de archivo"}
+                                       disabled
                                 />
                             </div>
                             <div className="col-xs-6 col-md-3">
@@ -224,17 +244,21 @@ class App extends React.Component {
                                     placeholder="Seleccione formato"
                                     required
                                     value={this.state.formato}
-                                    onChange={(e) => { this.setState({ formato: e.target.value }) }}
+                                    onChange={(e) => {
+                                        this.setState({formato: e.target.value})
+                                    }}
                                 >
-                                    <option value="" disabled>Tipo de Archivo</option>
+                                    <option value="" disabled>Tipo de formato</option>
                                     <option value="1">(1) Despues del 2010</option>
                                     <option value="2">(2) Del 2010 o antes</option>
                                 </select>
                             </div>
                             <div className="col-xs-2 col-md-1">
-                                <input className="myButton" type="button"
-                                    onClick={(e) => { this.setState({ help: true }) }}
-                                    value="?" />
+                                <input className="myButton-formato" type="button"
+                                       onClick={(e) => {
+                                           this.setState({help: true})
+                                       }}
+                                       value="Formatos"/>
                             </div>
                         </div>
                         <div className="row">
@@ -242,7 +266,7 @@ class App extends React.Component {
                             </div>
                             <div className="col-xs-12 col-md-3">
                                 <input
-                                    className="myButton"
+                                    className="myButton-cargar"
                                     type="submit"
                                     value="CARGAR"
                                     onClick={(e) => {
@@ -261,9 +285,9 @@ class App extends React.Component {
                         help={this.state.help}
                         handClearSelectedOption={this.handClearSelectedOption}
                     />
-                    <br />
-                    <hr />
-                    <br />
+                    <br/>
+                    <hr/>
+                    <br/>
                     <div>
                         <TableResults
                             archivo={this.state.archivo}

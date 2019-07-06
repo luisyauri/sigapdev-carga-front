@@ -1,12 +1,14 @@
+*{
+    font-family: 'Source Sans Pro', sans-serif;
+}
 .h1 {
-    color: #154169;
+    color: #ffffff;
     padding: 30px;
     text-align: left;
     letter-spacing: 0px;
     font-weight: bold;
     font-size: 50px;
     margin: 0 auto;
-    font-family: Tahoma, Geneva, sans-serif;
     letter-spacing: 0.5px;
     word-spacing: -4px;
     font-style: normal;
@@ -14,7 +16,10 @@
   }
 
 .h1-modal{
-    background-color: #154169;
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 15px;
+    background-color: #0288D1;
     color: white;
     padding: 40px;
     text-align: center;
@@ -23,12 +28,15 @@
     font-weight: normal;
     font-size: 50px;
     margin: 0 auto;
-    font-family: Verdana, Geneva, sans-serif;
 }
 
 .img{
-  padding: 30px;
-  cursor: pointer;
+    margin-top: 40px;
+    margin-right: 0px;
+    font-size: 50px;
+    cursor: pointer;
+    color: white;
+    text-align: end;
 }
   .table {
     border-collapse: collapse;/*juntamos los border por td y la tabla en si en uno solo*/
@@ -41,7 +49,7 @@
     text-align: center;/*Alineamos el texto al centro ---th por defecto esta alineado al centro*/
     /* vertical-align: bottom; Alineamos el texto verticalmente hacia abajo*/
     padding: 1px;
-    background-color:#154169;
+    background-color:#0288D1;
     color: white;
     border: 3px solid WHITE;
     /* border-radius: 15px; */
@@ -72,9 +80,14 @@
   padding: 40px;
   padding-top: 20px;
   max-width: 95%;
-  margin: auto;
-  border: 2px solid rgb(108, 147, 184);
+  margin: 0px 23px 23px 23px;
+  border: 2px solid #D3D3D3;
   border-radius: 20px;
   background-color: #ffffff;
 }
 
+body {
+    background: url(http://i63.tinypic.com/2nvqki1.png) center;
+    background-size: cover;
+    background-color: #282C34;
+}
