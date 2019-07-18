@@ -26,7 +26,7 @@ class Login extends React.Component {
             body: JSON.stringify({"username": usuarioLogin, "password": passwordLogin})
         }).then(res => res.json())
             .then(res => {
-                if(res){
+                if(res === true){
                     auth.login(()=>{
                         this.props.history.push('/modulo-carga');
                     });
