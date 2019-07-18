@@ -17,7 +17,8 @@ const HelpModal = (props) => (
             <h4>Formato 1</h4>
         </div>
         <div className="row center-xs">
-            <img src="http://i66.tinypic.com/2d0z1us.png" alt="Formato 1 en espera..." />
+            <img src="https://image.ibb.co/gyLsdJ/formato2.png" alt="Formato 1 en espera..." />
+            {/*<img src="http://i66.tinypic.com/2d0z1us.png" alt="Formato 1 en espera..." />*/}
         </div>
         <hr />
         <div className="row center-xs">
